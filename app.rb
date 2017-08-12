@@ -22,7 +22,7 @@ configure do
 	# инициализация БД
 	init_db
 	# создаёт таблицу если таблица не существует
-	@db.execute 'create table if not exists Postst 
+	@db.execute 'create table if not exists Posts 
 	(
 		 id INTEGER PRIMARY KEY AUTOINCREMENT,
 		 created_date DATE,
@@ -50,6 +50,8 @@ post '/new' do
 		@error = 'Type post text'
 		return erb :new
 	end
+
+	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
 
 	erb "You typed: #{content}"
 end
